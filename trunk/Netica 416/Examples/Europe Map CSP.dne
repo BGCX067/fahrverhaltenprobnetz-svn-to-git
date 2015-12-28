@@ -1,0 +1,911 @@
+// ~->[DNET-1]->~
+
+// File created by Norsys using Netica 3.14 on May 18, 2006 at 16:47:40.
+
+bnet Europe_Map_CSP {
+AutoCompile = TRUE;
+autoupdate = TRUE;
+comment = "\n\
+	Europe Map Coloring                             Copyright 1998 Norsys Software Corp.\n\n\
+	This Bayes net demonstrates how to solve constraint satisfaction problems (CSPs)\n\
+	using Bayes nets.  A CSP consists of a number of variables, and some constraints\n\
+	between them.  The goal is to find values for the variables that satisfy all the\n\
+	constraints.\n\n\
+	A map consisting of some of the countries in western continental Europe is to be\n\
+	colored so that no two bordering countries have the same color.  In a map coloring\n\
+	problem, four colors is enough, so we have chosen red, green, blue and yellow.  \n\
+	In this CSP the variables are the color of each country, and the constraints are that \n\
+	bordering countries must have different values.  \n\n\
+	The constraints are represented by the R nodes.  If you look at their relation table,\n\
+	you will see that they are \"True\" only when the two nodes they are between have\n\
+	different values.  Each has a finding of \"True\" entered, to indicate that the constraint\n\
+	is satisfied.\n\n\
+	If you compile the above network, the solution is represented by the nonzero beliefs.\n\
+	The problem is under-constrained so there are lots of solutions.  Say we want Luxembourg\n\
+	to be red, and Germany green.  If you enter those as findings, you will see how choices \n\
+	for the rest of the countries become reduced (you can't make a choice with a zero belief).\n\
+	Yellow is still a possiblity for Netherlands, France and Italy.  Say we make Netherlands\n\
+	yellow.  Then we see that Italy can't be yellow, and France must be yellow.\n\n\
+	To solve general CSPs, you will make each of the variables a node with uniform probabilities\n\
+	(unless you want to express some bias).  Each constraint will also be a node, whose parents\n\
+	are the variables it contrains.  Binary constraints will have two parents, ternary \n\
+	constraints will have three, and so on.  Each constraint will be a True/False node,\n\
+	whose relation table indicates \"True\" when the constraint is satisfied.  Then it is given\n\
+	a finding of \"True\".\n\n\
+	If not all the constraint nodes can be given findings of True before Netica complains that\n\
+	an inconsistent finding has been entered, then the CSP does not have a solution.  You can\n\
+	turn constraints on and off by entering and removing their findings.  Sets of constraints\n\
+	can be saved in a case file.  A constraint can be made to depend on other variables by \n\
+	giving it additional parents.\n\n\
+	Soft constraints are possible.  Instead of giving the constraint node a finding, you can \n\
+	add a utility node which is a child of the contraint node, indicating the desirability of \n\
+	having the constraint satisfied.  Then make the primary variable nodes into decision\n\
+	nodes to find the optimal decision (i.e. the best assignment of values to get the highest\n\
+	utility).\n\n\
+	You can see that belief/decision networks are powerful and practical way to represent\n\
+	CSPs, allowing for Nary constraints, soft constraints, meta constraints, easily changing \n\
+	constraint sets, other probabilistic relations, etc.\n\n\
+	Some tips: Often contraints are the same, so copy and paste a lot during construction.  \n\
+	If you have a large network it is a good idea to label each constraint node with a \n\
+	keyword (e.g. put \"$constraint\" in its comment).  Then you can select all the constraint \n\
+	nodes using Edit->Find All.  If you invert that selection with Shift+Ctrl+A, you can \n\
+	then do Network->Remove Findings to remove all the findings except constraints.\n\n\
+	This Bayes net designed by Norsys Software Corp.\n\
+	";
+whenchanged = 1051164554;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	NodeMaxNumEntries = 50;
+	nodefont = font {shape= "Arial"; size= 10;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	windowposn = (6, 6, 875, 656);
+	CommentShowing = TRUE;
+	CommentWindowPosn = (6, 655, 873, 899);
+	resolution = 72;
+	drawingbounds = (1080, 740);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	NodeSet Node {BuiltIn = 1; Color = 0xc0c0c0;};
+	NodeSet Nature {BuiltIn = 1; Color = 0xf8eed2;};
+	NodeSet Deterministic {BuiltIn = 1; Color = 0xd3caa6;};
+	NodeSet Finding {BuiltIn = 1; Color = 0xc8c8c8;};
+	NodeSet Constant {BuiltIn = 1; Color = 0xffffff;};
+	NodeSet ConstantValue {BuiltIn = 1; Color = 0xffffb4;};
+	NodeSet Utility {BuiltIn = 1; Color = 0xffbdbd;};
+	NodeSet Decision {BuiltIn = 1; Color = 0xdee8ff;};
+	NodeSet Documentation {BuiltIn = 1; Color = 0xf0fafa;};
+	NodeSet Title {BuiltIn = 1; Color = 0xffffff;};
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		landscape = FALSE;
+		magnify = 1;
+		};
+	};
+
+node Portugal {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907071384;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (114, 534);
+		height = 1;
+		};
+	};
+
+node Spain {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907070062;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (114, 384);
+		height = 2;
+		};
+	};
+
+node R1 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Spain, Portugal);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070014;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (114, 462);
+		dispform = LABELBOX;
+		height = 3;
+		};
+	};
+
+node France {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907072633;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (318, 384);
+		height = 4;
+		};
+	};
+
+node R2 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (France, Spain);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070078;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (216, 384);
+		dispform = LABELBOX;
+		height = 5;
+		};
+	};
+
+node Italy {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907070052;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (528, 528);
+		height = 8;
+		};
+	};
+
+node R3 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (France, Italy);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070144;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (420, 462);
+		dispform = LABELBOX;
+		height = 9;
+		};
+	};
+
+node Switzerland {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907070052;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (528, 384);
+		height = 6;
+		};
+	};
+
+node R4 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (France, Switzerland);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070183;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (426, 384);
+		dispform = LABELBOX;
+		height = 7;
+		};
+	};
+
+node Luxembourg {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907074017;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (318, 228);
+		height = 20;
+		};
+	};
+
+node R8 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Luxembourg, France);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070376;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (318, 312);
+		dispform = LABELBOX;
+		height = 14;
+		};
+	};
+
+node Belgium {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907070052;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (114, 228);
+		height = 22;
+		};
+	};
+
+node R9 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Belgium, France);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070392;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (216, 312);
+		dispform = LABELBOX;
+		height = 16;
+		};
+	};
+
+node Germany {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907074016;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (528, 228);
+		height = 18;
+		};
+	};
+
+node R10 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Germany, France);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070403;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (414, 312);
+		dispform = LABELBOX;
+		height = 15;
+		};
+	};
+
+node Austria {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907071390;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (744, 384);
+		height = 11;
+		};
+	};
+
+node R6 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Austria, Italy);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070259;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (648, 462);
+		dispform = LABELBOX;
+		height = 12;
+		};
+	};
+
+node R7 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Switzerland, Italy);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070278;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (528, 456);
+		dispform = LABELBOX;
+		height = 13;
+		};
+	};
+
+node R5 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Switzerland, Austria);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070232;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (636, 384);
+		dispform = LABELBOX;
+		height = 10;
+		};
+	};
+
+node R11 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Germany, Switzerland);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070460;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (528, 306);
+		dispform = LABELBOX;
+		height = 17;
+		};
+	};
+
+node R12 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Belgium, Luxembourg);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070514;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (216, 228);
+		dispform = LABELBOX;
+		height = 21;
+		};
+	};
+
+node R13 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Luxembourg, Germany);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070522;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (426, 228);
+		dispform = LABELBOX;
+		height = 19;
+		};
+	};
+
+node Netherlands {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (red, green, blue, yellow);
+	parents = ();
+	probs = 
+		// red          green        blue         yellow       
+		  (0.25,        0.25,        0.25,        0.25);
+	whenchanged = 907072970;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (528, 90);
+		height = 24;
+		};
+	};
+
+node R16 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Netherlands, Belgium);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070865;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (402, 90);
+		dispform = LABELBOX;
+		height = 26;
+		};
+	};
+
+node R17 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Germany, Belgium);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070884;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (348, 144);
+		dispform = LABELBOX;
+		height = 27;
+		};
+	};
+
+node R14 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Germany, Austria);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070834;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (642, 306);
+		dispform = LABELBOX;
+		height = 23;
+		};
+	};
+
+node R15 {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (True, False);
+	inputs = (C1, C2);
+	parents = (Netherlands, Germany);
+	functable = 
+		                     // C1     C2     
+		 ((False,            // red    red    
+		   True,             // red    green  
+		   True,             // red    blue   
+		   True),            // red    yellow 
+		  (True,             // green  red    
+		   False,            // green  green  
+		   True,             // green  blue   
+		   True),            // green  yellow 
+		  (True,             // blue   red    
+		   True,             // blue   green  
+		   False,            // blue   blue   
+		   True),            // blue   yellow 
+		  (True,             // yellow red    
+		   True,             // yellow green  
+		   True,             // yellow blue   
+		   False));          // yellow yellow ;
+	comment = "$constraint";
+	whenchanged = 907070850;
+	evidence = True;
+	belief = (1, 0);
+	visual V1 {
+		center = (528, 156);
+		dispform = LABELBOX;
+		height = 25;
+		};
+	};
+
+node TITLE1 {
+	kind = ASSUME;
+	discrete = TRUE;
+	states = (True, False);
+	parents = ();
+	title = "Europe Map Coloring";
+	whenchanged = 907071069;
+	visual V1 {
+		center = (123, 42);
+		font = font {shape= "Arial"; size= 14;};
+		height = 30;
+		};
+	};
+
+node TITLE2 {
+	kind = ASSUME;
+	discrete = TRUE;
+	states = (True, False);
+	parents = ();
+	title = "Constraint Satisfaction Problem";
+	whenchanged = 907071088;
+	visual V1 {
+		center = (144, 72);
+		font = font {shape= "Arial"; size= 12;};
+		height = 29;
+		};
+	};
+
+node NOTE1 {
+	kind = ASSUME;
+	discrete = TRUE;
+	states = (True, False);
+	parents = ();
+	title = "Copyright 1998 Norsys Software Corp.";
+	whenchanged = 900925017;
+	visual V1 {
+		center = (144, 120);
+		height = 28;
+		};
+	};
+ElimOrder = (Portugal, R1, Spain, R2, R3, R4, R8, R9, R10, R6, R7, R5, R11, R12, R13, R16, R17, R14, R15, Netherlands, Italy, Switzerland, Austria, France, Luxembourg, Belgium, Germany);
+};

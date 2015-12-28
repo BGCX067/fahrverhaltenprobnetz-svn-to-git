@@ -1,0 +1,843 @@
+// ~->[DNET-1]->~
+
+// File created by an unlicensed user using Netica 4.16 on Mar 26, 2013 at 22:32:06.
+
+bnet fahrverhalten52errors {
+AutoCompile = TRUE;
+autoupdate = TRUE;
+whenchanged = 1364333448;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	NodeMaxNumEntries = 50;
+	nodefont = font {shape= "Arial"; size= 9;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	windowposn = (25, -11, 821, 307);
+	resolution = 72;
+	drawingbounds = (1824, 991);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	NodeSet Node {BuiltIn = 1; Color = 0xc0c0c0;};
+	NodeSet Nature {BuiltIn = 1; Color = 0xf8eed2;};
+	NodeSet Deterministic {BuiltIn = 1; Color = 0xd3caa6;};
+	NodeSet Finding {BuiltIn = 1; Color = 0xc8c8c8;};
+	NodeSet Constant {BuiltIn = 1; Color = 0xffffff;};
+	NodeSet ConstantValue {BuiltIn = 1; Color = 0xffffb4;};
+	NodeSet Utility {BuiltIn = 1; Color = 0xffbdbd;};
+	NodeSet Decision {BuiltIn = 1; Color = 0xdee8ff;};
+	NodeSet Documentation {BuiltIn = 1; Color = 0xf0fafa;};
+	NodeSet Title {BuiltIn = 1; Color = 0xffffff;};
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		landscape = FALSE;
+		magnify = 1;
+		};
+	};
+
+node d_front {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (far, middle, short);
+	parents = ();
+	probs = 
+		// far          middle       short        
+		  (0.678736,    0.2793259,   0.04193816);
+	title = "d_front";
+	whenchanged = 1364333448;
+	belief = (0.678736, 0.2793259, 0.04193816);
+	visual V1 {
+		center = (726, 108);
+		height = 10;
+		};
+	};
+
+node v_own {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (fast, middle, slow);
+	parents = ();
+	probs = 
+		// fast         middle       slow         
+		  (0.6506494,   0.1399015,   0.2094491);
+	title = "v_own";
+	whenchanged = 1364333448;
+	belief = (0.6506494, 0.1399015, 0.209449);
+	visual V1 {
+		center = (264, 330);
+		height = 8;
+		};
+	};
+
+node v_own_hist {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (fast, middle, slow);
+	parents = ();
+	probs = 
+		// fast         middle       slow         
+		  (0.6550019,   0.1410307,   0.2039675);
+	title = "v_own_hist";
+	whenchanged = 1364333448;
+	belief = (0.6550019, 0.1410307, 0.2039675);
+	visual V1 {
+		center = (264, 414);
+		height = 9;
+		};
+	};
+
+node a_own {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (faster, slower, consistent);
+	inputs = (v_links, v_links_hist);
+	parents = (v_own, v_own_hist);
+	probs = 
+		// faster       slower       consistent    // v_links v_links_hist 
+		  (0.0459699,   0.909914,    0.04411608,   // fast    fast         
+		   0.001557274, 0.001169111, 0.9972736,    // fast    middle       
+		   0.3032027,   0.3655905,   0.3312069,    // fast    slow         
+		   0.5853491,   0.07170566,  0.3429452,    // middle  fast         
+		   1.175981e-4, 0.007518495, 0.9923639,    // middle  middle       
+		   0.001912369, 0.2175377,   0.7805499,    // middle  slow         
+		   0.3090543,   0.3651729,   0.3257728,    // slow    fast         
+		   1.766625e-4, 0.9995184,   3.049344e-4,  // slow    middle       
+		   1.130298e-4, 0.9997058,   1.811505e-4); // slow    slow         ;
+	title = "a_own";
+	whenchanged = 1364333448;
+	belief = (0.1560775, 0.5716667, 0.2722559);
+	visual V1 {
+		center = (510, 330);
+		height = 2;
+		link 2 {
+			path = ((342, 388), (423, 360));
+			};
+		};
+	};
+
+node v_front {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (fast, middle, slow);
+	parents = ();
+	probs = 
+		// fast         middle       slow         
+		  (0.1117138,   0.7345558,   0.1537304);
+	title = "v_front";
+	whenchanged = 1364333448;
+	belief = (0.1117138, 0.7345558, 0.1537304);
+	visual V1 {
+		center = (264, 108);
+		height = 15;
+		};
+	};
+
+node v_front_hist {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (fast, middle, slow);
+	parents = ();
+	probs = 
+		// fast         middle       slow         
+		  (0.1127088,   0.7326514,   0.1546399);
+	title = "v_front_hist";
+	whenchanged = 1364333448;
+	belief = (0.1127088, 0.7326514, 0.1546399);
+	visual V1 {
+		center = (264, 198);
+		height = 11;
+		};
+	};
+
+node a_front {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (faster, slower, consistent);
+	parents = (v_front_hist, v_front);
+	probs = 
+		// faster       slower       consistent    // v_front_hist v_front 
+		  (0.001241615, 0.005672571, 0.9930858,    // fast         fast    
+		   0.005329689, 0.4856553,   0.509015,     // fast         middle  
+		   0.3000889,   0.3505655,   0.3493456,    // fast         slow    
+		   0.01996525,  0.1268234,   0.8532113,    // middle       fast    
+		   0.9009802,   0.01523212,  0.08378766,   // middle       middle  
+		   0.9907486,   0.003997019, 0.005254371,  // middle       slow    
+		   0.01382904,  0.9428288,   0.04334215,   // slow         fast    
+		   2.195085e-5, 3.875522e-5, 0.9999393,    // slow         middle  
+		   0.4846314,   0.1821855,   0.3331831);   // slow         slow    ;
+	title = "a_front";
+	whenchanged = 1364333448;
+	belief = (0.6155252, 0.08600453, 0.2984702);
+	visual V1 {
+		center = (510, 108);
+		height = 13;
+		link 1 {
+			path = ((342, 170), (423, 140));
+			};
+		};
+	};
+
+node crash_front {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (yes, no);
+	parents = (d_front, v_own, a_own, v_front, a_front);
+	probs = 
+		// yes          no            // d_front v_own  a_own      v_front a_front    
+		  (0.4186915,   0.5813085,    // far     fast   faster     fast    faster     
+		   0.3409856,   0.6590144,    // far     fast   faster     fast    slower     
+		   0.3110735,   0.6889265,    // far     fast   faster     fast    consistent 
+		   0.2695804,   0.7304196,    // far     fast   faster     middle  faster     
+		   0.5817719,   0.4182281,    // far     fast   faster     middle  slower     
+		   7.705004e-5, 0.9999229,    // far     fast   faster     middle  consistent 
+		   0.4289554,   0.5710446,    // far     fast   faster     slow    faster     
+		   0.974861,    0.02513901,   // far     fast   faster     slow    slower     
+		   0.9802333,   0.01976667,   // far     fast   faster     slow    consistent 
+		   0.418194,    0.581806,     // far     fast   slower     fast    faster     
+		   0.3049365,   0.6950635,    // far     fast   slower     fast    slower     
+		   0.3221719,   0.6778281,    // far     fast   slower     fast    consistent 
+		   0.640178,    0.359822,     // far     fast   slower     middle  faster     
+		   0.6856072,   0.3143928,    // far     fast   slower     middle  slower     
+		   6.338247e-5, 0.9999366,    // far     fast   slower     middle  consistent 
+		   0.2931505,   0.7068495,    // far     fast   slower     slow    faster     
+		   0.9805421,   0.01945785,   // far     fast   slower     slow    slower     
+		   0.9778398,   0.02216016,   // far     fast   slower     slow    consistent 
+		   0.3940575,   0.6059425,    // far     fast   consistent fast    faster     
+		   0.2972493,   0.7027506,    // far     fast   consistent fast    slower     
+		   0.2778441,   0.7221559,    // far     fast   consistent fast    consistent 
+		   0.001816446, 0.9981835,    // far     fast   consistent middle  faster     
+		   1.178113e-4, 0.9998822,    // far     fast   consistent middle  slower     
+		   1.269368e-5, 0.9999873,    // far     fast   consistent middle  consistent 
+		   0.3494357,   0.6505643,    // far     fast   consistent slow    faster     
+		   0.9788411,   0.0211589,    // far     fast   consistent slow    slower     
+		   0.9757428,   0.02425717,   // far     fast   consistent slow    consistent 
+		   0.08049665,  0.9195033,    // far     middle faster     fast    faster     
+		   0.08080404,  0.919196,     // far     middle faster     fast    slower     
+		   0.09047509,  0.9095249,    // far     middle faster     fast    consistent 
+		   0.08923954,  0.9107605,    // far     middle faster     middle  faster     
+		   0.9999989,   1.11474e-6,   // far     middle faster     middle  slower     
+		   0.9999933,   6.68733e-6,   // far     middle faster     middle  consistent 
+		   0.9999418,   5.82547e-5,   // far     middle faster     slow    faster     
+		   0.9999337,   6.633299e-5,  // far     middle faster     slow    slower     
+		   0.9999433,   5.6709e-5,    // far     middle faster     slow    consistent 
+		   0.08656351,  0.9134365,    // far     middle slower     fast    faster     
+		   0.1044949,   0.8955051,    // far     middle slower     fast    slower     
+		   0.08025719,  0.9197428,    // far     middle slower     fast    consistent 
+		   0.06477625,  0.9352238,    // far     middle slower     middle  faster     
+		   0.9999993,   6.688455e-7,  // far     middle slower     middle  slower     
+		   0.9998921,   1.079224e-4,  // far     middle slower     middle  consistent 
+		   0.9999293,   7.0685e-5,    // far     middle slower     slow    faster     
+		   0.9999303,   6.966449e-5,  // far     middle slower     slow    slower     
+		   0.9999188,   8.117125e-5,  // far     middle slower     slow    consistent 
+		   0.09002916,  0.9099708,    // far     middle consistent fast    faster     
+		   0.08458307,  0.915417,     // far     middle consistent fast    slower     
+		   0.07503272,  0.9249673,    // far     middle consistent fast    consistent 
+		   0.07725693,  0.9227431,    // far     middle consistent middle  faster     
+		   0.9999993,   6.915467e-7,  // far     middle consistent middle  slower     
+		   0.9999994,   6.037018e-7,  // far     middle consistent middle  consistent 
+		   0.9999299,   7.0069e-5,    // far     middle consistent slow    faster     
+		   0.9999433,   5.674453e-5,  // far     middle consistent slow    slower     
+		   0.9999198,   8.024037e-5,  // far     middle consistent slow    consistent 
+		   0.4718483,   0.5281518,    // far     slow   faster     fast    faster     
+		   0.4870666,   0.5129334,    // far     slow   faster     fast    slower     
+		   0.546454,    0.453546,     // far     slow   faster     fast    consistent 
+		   0.9999993,   6.944746e-7,  // far     slow   faster     middle  faster     
+		   0.9999992,   8.334804e-7,  // far     slow   faster     middle  slower     
+		   0.999999,    9.511887e-7,  // far     slow   faster     middle  consistent 
+		   0.5026112,   0.4973888,    // far     slow   faster     slow    faster     
+		   0.5208257,   0.4791743,    // far     slow   faster     slow    slower     
+		   0.5448647,   0.4551353,    // far     slow   faster     slow    consistent 
+		   0.5154909,   0.484509,     // far     slow   slower     fast    faster     
+		   0.5653201,   0.4346799,    // far     slow   slower     fast    slower     
+		   0.5379457,   0.4620542,    // far     slow   slower     fast    consistent 
+		   0.9999992,   8.214503e-7,  // far     slow   slower     middle  faster     
+		   0.9999993,   6.734132e-7,  // far     slow   slower     middle  slower     
+		   0.9999993,   7.242314e-7,  // far     slow   slower     middle  consistent 
+		   0.5094703,   0.4905297,    // far     slow   slower     slow    faster     
+		   0.5364738,   0.4635262,    // far     slow   slower     slow    slower     
+		   0.4608022,   0.5391978,    // far     slow   slower     slow    consistent 
+		   0.517181,    0.482819,     // far     slow   consistent fast    faster     
+		   0.5351309,   0.4648691,    // far     slow   consistent fast    slower     
+		   0.4845194,   0.5154806,    // far     slow   consistent fast    consistent 
+		   0.9999993,   6.433121e-7,  // far     slow   consistent middle  faster     
+		   0.9999992,   7.595214e-7,  // far     slow   consistent middle  slower     
+		   0.9999992,   8.513188e-7,  // far     slow   consistent middle  consistent 
+		   0.4655181,   0.5344819,    // far     slow   consistent slow    faster     
+		   0.4502785,   0.5497215,    // far     slow   consistent slow    slower     
+		   0.4792121,   0.5207879,    // far     slow   consistent slow    consistent 
+		   1.349517e-4, 0.9998651,    // middle  fast   faster     fast    faster     
+		   1.320646e-4, 0.9998679,    // middle  fast   faster     fast    slower     
+		   1.294123e-4, 0.9998706,    // middle  fast   faster     fast    consistent 
+		   1.194689e-4, 0.9998806,    // middle  fast   faster     middle  faster     
+		   1.287216e-4, 0.9998713,    // middle  fast   faster     middle  slower     
+		   1.482252e-4, 0.9998518,    // middle  fast   faster     middle  consistent 
+		   1.211709e-4, 0.9998788,    // middle  fast   faster     slow    faster     
+		   1.418e-4,    0.9998582,    // middle  fast   faster     slow    slower     
+		   1.540463e-4, 0.999846,     // middle  fast   faster     slow    consistent 
+		   1.068603e-4, 0.9998931,    // middle  fast   slower     fast    faster     
+		   1.280933e-4, 0.9998719,    // middle  fast   slower     fast    slower     
+		   1.40348e-4,  0.9998596,    // middle  fast   slower     fast    consistent 
+		   1.162014e-4, 0.9998838,    // middle  fast   slower     middle  faster     
+		   1.021046e-4, 0.9998979,    // middle  fast   slower     middle  slower     
+		   1.101954e-4, 0.9998898,    // middle  fast   slower     middle  consistent 
+		   1.27789e-4,  0.9998722,    // middle  fast   slower     slow    faster     
+		   1.571416e-4, 0.9998429,    // middle  fast   slower     slow    slower     
+		   1.164394e-4, 0.9998835,    // middle  fast   slower     slow    consistent 
+		   1.48434e-4,  0.9998516,    // middle  fast   consistent fast    faster     
+		   1.182372e-4, 0.9998817,    // middle  fast   consistent fast    slower     
+		   1.393736e-4, 0.9998606,    // middle  fast   consistent fast    consistent 
+		   1.358457e-4, 0.9998642,    // middle  fast   consistent middle  faster     
+		   1.219493e-4, 0.999878,     // middle  fast   consistent middle  slower     
+		   1.232073e-4, 0.9998768,    // middle  fast   consistent middle  consistent 
+		   1.446316e-4, 0.9998553,    // middle  fast   consistent slow    faster     
+		   1.376213e-4, 0.9998624,    // middle  fast   consistent slow    slower     
+		   1.319813e-4, 0.999868,     // middle  fast   consistent slow    consistent 
+		   1.370852e-4, 0.9998629,    // middle  middle faster     fast    faster     
+		   1.464891e-4, 0.9998535,    // middle  middle faster     fast    slower     
+		   1.315221e-4, 0.9998685,    // middle  middle faster     fast    consistent 
+		   0.01209467,  0.9879053,    // middle  middle faster     middle  faster     
+		   0.01728143,  0.9827186,    // middle  middle faster     middle  slower     
+		   0.00748114,  0.9925188,    // middle  middle faster     middle  consistent 
+		   0.4956204,   0.5043796,    // middle  middle faster     slow    faster     
+		   0.4464072,   0.5535928,    // middle  middle faster     slow    slower     
+		   0.4401563,   0.5598437,    // middle  middle faster     slow    consistent 
+		   1.308608e-4, 0.9998692,    // middle  middle slower     fast    faster     
+		   1.373356e-4, 0.9998627,    // middle  middle slower     fast    slower     
+		   1.380183e-4, 0.999862,     // middle  middle slower     fast    consistent 
+		   0.9997517,   2.48322e-4,   // middle  middle slower     middle  faster     
+		   0.9998399,   1.601119e-4,  // middle  middle slower     middle  slower     
+		   0.999761,    2.389452e-4,  // middle  middle slower     middle  consistent 
+		   0.4639316,   0.5360683,    // middle  middle slower     slow    faster     
+		   0.5417191,   0.4582809,    // middle  middle slower     slow    slower     
+		   0.4755984,   0.5244016,    // middle  middle slower     slow    consistent 
+		   1.465236e-4, 0.9998535,    // middle  middle consistent fast    faster     
+		   1.552773e-4, 0.9998447,    // middle  middle consistent fast    slower     
+		   1.227464e-4, 0.9998773,    // middle  middle consistent fast    consistent 
+		   0.9997705,   2.295094e-4,  // middle  middle consistent middle  faster     
+		   0.9998264,   1.735401e-4,  // middle  middle consistent middle  slower     
+		   0.9998039,   1.96098e-4,   // middle  middle consistent middle  consistent 
+		   0.5585108,   0.4414891,    // middle  middle consistent slow    faster     
+		   0.4690398,   0.5309601,    // middle  middle consistent slow    slower     
+		   0.4491553,   0.5508447,    // middle  middle consistent slow    consistent 
+		   0.9999973,   2.769971e-6,  // middle  slow   faster     fast    faster     
+		   0.9999973,   2.658428e-6,  // middle  slow   faster     fast    slower     
+		   0.9999974,   2.588381e-6,  // middle  slow   faster     fast    consistent 
+		   0.999997,    3.056019e-6,  // middle  slow   faster     middle  faster     
+		   0.9999973,   2.703397e-6,  // middle  slow   faster     middle  slower     
+		   0.9999972,   2.777947e-6,  // middle  slow   faster     middle  consistent 
+		   0.9999976,   2.406585e-6,  // middle  slow   faster     slow    faster     
+		   0.9999973,   2.657937e-6,  // middle  slow   faster     slow    slower     
+		   0.9999973,   2.704637e-6,  // middle  slow   faster     slow    consistent 
+		   0.9999972,   2.829117e-6,  // middle  slow   slower     fast    faster     
+		   0.9999973,   2.707141e-6,  // middle  slow   slower     fast    slower     
+		   0.9999974,   2.588082e-6,  // middle  slow   slower     fast    consistent 
+		   0.9999973,   2.717625e-6,  // middle  slow   slower     middle  faster     
+		   0.9999971,   2.89944e-6,   // middle  slow   slower     middle  slower     
+		   0.9999975,   2.527185e-6,  // middle  slow   slower     middle  consistent 
+		   0.9999975,   2.4785e-6,    // middle  slow   slower     slow    faster     
+		   0.9999974,   2.59879e-6,   // middle  slow   slower     slow    slower     
+		   0.9999973,   2.70629e-6,   // middle  slow   slower     slow    consistent 
+		   0.9999971,   2.887909e-6,  // middle  slow   consistent fast    faster     
+		   0.9999971,   2.898738e-6,  // middle  slow   consistent fast    slower     
+		   0.9999973,   2.76378e-6,   // middle  slow   consistent fast    consistent 
+		   0.9999971,   2.944289e-6,  // middle  slow   consistent middle  faster     
+		   0.9999973,   2.6561e-6,    // middle  slow   consistent middle  slower     
+		   0.999997,    2.955402e-6,  // middle  slow   consistent middle  consistent 
+		   0.9999972,   2.828719e-6,  // middle  slow   consistent slow    faster     
+		   0.9999973,   2.769607e-6,  // middle  slow   consistent slow    slower     
+		   0.9999971,   2.836033e-6,  // middle  slow   consistent slow    consistent 
+		   1.151617e-4, 0.9998848,    // short   fast   faster     fast    faster     
+		   1.166344e-4, 0.9998834,    // short   fast   faster     fast    slower     
+		   8.182108e-5, 0.9999182,    // short   fast   faster     fast    consistent 
+		   1.099431e-4, 0.99989,      // short   fast   faster     middle  faster     
+		   7.979687e-5, 0.9999202,    // short   fast   faster     middle  slower     
+		   9.531887e-5, 0.9999047,    // short   fast   faster     middle  consistent 
+		   0.5073156,   0.4926845,    // short   fast   faster     slow    faster     
+		   0.5032738,   0.4967262,    // short   fast   faster     slow    slower     
+		   0.4710601,   0.5289398,    // short   fast   faster     slow    consistent 
+		   1.039175e-4, 0.9998961,    // short   fast   slower     fast    faster     
+		   9.665283e-5, 0.9999033,    // short   fast   slower     fast    slower     
+		   8.870256e-5, 0.9999113,    // short   fast   slower     fast    consistent 
+		   1.114444e-4, 0.9998885,    // short   fast   slower     middle  faster     
+		   1.029305e-4, 0.9998971,    // short   fast   slower     middle  slower     
+		   9.070108e-5, 0.9999093,    // short   fast   slower     middle  consistent 
+		   0.4379895,   0.5620105,    // short   fast   slower     slow    faster     
+		   0.5401915,   0.4598085,    // short   fast   slower     slow    slower     
+		   0.5045788,   0.4954212,    // short   fast   slower     slow    consistent 
+		   1.037369e-4, 0.9998963,    // short   fast   consistent fast    faster     
+		   1.008898e-4, 0.9998991,    // short   fast   consistent fast    slower     
+		   9.618847e-5, 0.9999038,    // short   fast   consistent fast    consistent 
+		   8.430793e-5, 0.9999157,    // short   fast   consistent middle  faster     
+		   9.466586e-5, 0.9999053,    // short   fast   consistent middle  slower     
+		   9.77911e-5,  0.9999022,    // short   fast   consistent middle  consistent 
+		   0.5390357,   0.4609644,    // short   fast   consistent slow    faster     
+		   0.4643394,   0.5356606,    // short   fast   consistent slow    slower     
+		   0.5596008,   0.4403992,    // short   fast   consistent slow    consistent 
+		   0.4753329,   0.5246671,    // short   middle faster     fast    faster     
+		   0.487879,    0.512121,     // short   middle faster     fast    slower     
+		   0.5238865,   0.4761135,    // short   middle faster     fast    consistent 
+		   0.5030421,   0.4969579,    // short   middle faster     middle  faster     
+		   0.5180935,   0.4819065,    // short   middle faster     middle  slower     
+		   0.4764145,   0.5235855,    // short   middle faster     middle  consistent 
+		   0.5170845,   0.4829154,    // short   middle faster     slow    faster     
+		   0.5545571,   0.4454429,    // short   middle faster     slow    slower     
+		   0.5584851,   0.4415149,    // short   middle faster     slow    consistent 
+		   0.4633151,   0.5366849,    // short   middle slower     fast    faster     
+		   0.5084956,   0.4915045,    // short   middle slower     fast    slower     
+		   0.540355,    0.459645,     // short   middle slower     fast    consistent 
+		   0.4677669,   0.5322332,    // short   middle slower     middle  faster     
+		   0.5135756,   0.4864245,    // short   middle slower     middle  slower     
+		   0.5362484,   0.4637516,    // short   middle slower     middle  consistent 
+		   0.5499836,   0.4500164,    // short   middle slower     slow    faster     
+		   0.5193853,   0.4806147,    // short   middle slower     slow    slower     
+		   0.5331045,   0.4668954,    // short   middle slower     slow    consistent 
+		   0.5268852,   0.4731148,    // short   middle consistent fast    faster     
+		   0.4873973,   0.5126027,    // short   middle consistent fast    slower     
+		   0.518369,    0.481631,     // short   middle consistent fast    consistent 
+		   0.4672668,   0.5327331,    // short   middle consistent middle  faster     
+		   0.4422825,   0.5577176,    // short   middle consistent middle  slower     
+		   0.4689402,   0.5310598,    // short   middle consistent middle  consistent 
+		   0.5002536,   0.4997465,    // short   middle consistent slow    faster     
+		   0.4887403,   0.5112597,    // short   middle consistent slow    slower     
+		   0.4540084,   0.5459916,    // short   middle consistent slow    consistent 
+		   0.5108629,   0.489137,     // short   slow   faster     fast    faster     
+		   0.4930511,   0.5069489,    // short   slow   faster     fast    slower     
+		   0.5606666,   0.4393334,    // short   slow   faster     fast    consistent 
+		   0.5199375,   0.4800625,    // short   slow   faster     middle  faster     
+		   0.5147449,   0.4852551,    // short   slow   faster     middle  slower     
+		   0.5192847,   0.4807153,    // short   slow   faster     middle  consistent 
+		   0.4559969,   0.5440031,    // short   slow   faster     slow    faster     
+		   0.5182445,   0.4817555,    // short   slow   faster     slow    slower     
+		   0.4363452,   0.5636548,    // short   slow   faster     slow    consistent 
+		   0.49931,     0.50069,      // short   slow   slower     fast    faster     
+		   0.4923332,   0.5076668,    // short   slow   slower     fast    slower     
+		   0.4519216,   0.5480784,    // short   slow   slower     fast    consistent 
+		   0.5325034,   0.4674966,    // short   slow   slower     middle  faster     
+		   0.4766138,   0.5233861,    // short   slow   slower     middle  slower     
+		   0.4356347,   0.5643653,    // short   slow   slower     middle  consistent 
+		   0.4495012,   0.5504988,    // short   slow   slower     slow    faster     
+		   0.5427546,   0.4572454,    // short   slow   slower     slow    slower     
+		   0.5250612,   0.4749388,    // short   slow   slower     slow    consistent 
+		   0.5198303,   0.4801697,    // short   slow   consistent fast    faster     
+		   0.5760815,   0.4239186,    // short   slow   consistent fast    slower     
+		   0.5416346,   0.4583654,    // short   slow   consistent fast    consistent 
+		   0.5225611,   0.4774389,    // short   slow   consistent middle  faster     
+		   0.4794698,   0.5205302,    // short   slow   consistent middle  slower     
+		   0.4750781,   0.5249219,    // short   slow   consistent middle  consistent 
+		   0.5117537,   0.4882463,    // short   slow   consistent slow    faster     
+		   0.5266565,   0.4733435,    // short   slow   consistent slow    slower     
+		   0.5263029,   0.4736971);   // short   slow   consistent slow    consistent ;
+	title = "crash_front";
+	whenchanged = 1364333448;
+	belief = (0.4081476, 0.5918524);
+	visual V1 {
+		center = (726, 198);
+		height = 12;
+		};
+	};
+
+node v_left {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (fast, middle, slow);
+	parents = ();
+	probs = 
+		// fast         middle       slow         
+		  (0.713603,    1.36424e-4,  0.2862606);
+	title = "v_left";
+	whenchanged = 1364333448;
+	belief = (0.713603, 1.36424e-4, 0.2862605);
+	visual V1 {
+		center = (264, 492);
+		height = 3;
+		};
+	};
+
+node v_left_hist {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (fast, middle, slow);
+	parents = ();
+	probs = 
+		// fast         middle       slow         
+		  (0.7178807,   1.358703e-4, 0.2819834);
+	title = "v_left_hist";
+	whenchanged = 1364333448;
+	belief = (0.7178807, 1.358703e-4, 0.2819834);
+	visual V1 {
+		center = (264, 582);
+		height = 4;
+		};
+	};
+
+node a_left {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (faster, slower, consistent);
+	parents = (v_left, v_left_hist);
+	probs = 
+		// faster       slower       consistent    // v_left v_left_hist 
+		  (0.9882004,   0.006515251, 0.00528435,   // fast   fast        
+		   0.3092036,   0.3236093,   0.3671871,    // fast   middle      
+		   0.9836382,   0.01225893,  0.004102854,  // fast   slow        
+		   0.2824718,   0.346248,    0.3712803,    // middle fast        
+		   0.3194428,   0.3186906,   0.3618665,    // middle middle      
+		   0.3529842,   0.3493586,   0.2976571,    // middle slow        
+		   0.8457855,   0.1526377,   0.001576787,  // slow   fast        
+		   0.9352961,   0.06365687,  0.001047029,  // slow   middle      
+		   2.556194e-4, 0.03675346,  0.9629909);   // slow   slow        ;
+	title = "a_left";
+	whenchanged = 1364333448;
+	belief = (0.8781069, 0.0402196, 0.0816735);
+	visual V1 {
+		center = (516, 582);
+		height = 6;
+		};
+	};
+
+node risktaking {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (big, middle, small);
+	parents = (a_left, d_front);
+	probs = 
+		// big          middle       small         // a_left     d_front 
+		  (4.405172e-4, 1.862168e-5, 0.9995409,    // faster     far     
+		   6.609217e-6, 0.9999882,   5.201511e-6,  // faster     middle  
+		   4.244726e-5, 0.9999471,   1.04678e-5,   // faster     short   
+		   4.034e-4,    2.912429e-5, 0.9995674,    // slower     far     
+		   1.090318e-5, 0.9999838,   5.253184e-6,  // slower     middle  
+		   4.705399e-5, 0.9999417,   1.126901e-5,  // slower     short   
+		   0.1206113,   8.822086e-5, 0.8793005,    // consistent far     
+		   1.21119e-5,  0.9999827,   5.177143e-6,  // consistent middle  
+		   3.062671e-5, 0.999962,    7.320128e-6); // consistent short   ;
+	title = "risktaking";
+	whenchanged = 1364333448;
+	belief = (0.006963382, 0.3212752, 0.6717615);
+	visual V1 {
+		center = (936, 330);
+		height = 14;
+		};
+	};
+
+node d_left {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (far, middle, short);
+	parents = ();
+	probs = 
+		// far          middle       short        
+		  (0.1120664,   0.1050528,   0.7828808);
+	title = "d_left";
+	whenchanged = 1364333448;
+	belief = (0.1120664, 0.1050528, 0.7828808);
+	visual V1 {
+		center = (726, 582);
+		height = 7;
+		};
+	};
+
+node crash_left {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (yes, no);
+	parents = (d_left, v_left, a_left, v_own, a_own);
+	probs = 
+		// yes          no            // d_left v_left a_left     v_own  a_own      
+		  (5.324368e-6, 0.9999947,    // far    fast   faster     fast   faster     
+		   3.293056e-6, 0.9999967,    // far    fast   faster     fast   slower     
+		   3.585965e-6, 0.9999964,    // far    fast   faster     fast   consistent 
+		   4.18772e-6,  0.9999958,    // far    fast   faster     middle faster     
+		   5.155005e-6, 0.9999949,    // far    fast   faster     middle slower     
+		   4.732444e-6, 0.9999953,    // far    fast   faster     middle consistent 
+		   6.950562e-5, 0.9999305,    // far    fast   faster     slow   faster     
+		   5.554116e-5, 0.9999444,    // far    fast   faster     slow   slower     
+		   7.121844e-5, 0.9999288,    // far    fast   faster     slow   consistent 
+		   3.118432e-6, 0.9999969,    // far    fast   slower     fast   faster     
+		   3.996572e-6, 0.999996,     // far    fast   slower     fast   slower     
+		   4.361414e-6, 0.9999956,    // far    fast   slower     fast   consistent 
+		   4.859052e-6, 0.9999951,    // far    fast   slower     middle faster     
+		   3.433431e-6, 0.9999965,    // far    fast   slower     middle slower     
+		   3.261753e-6, 0.9999967,    // far    fast   slower     middle consistent 
+		   6.005215e-5, 0.9999399,    // far    fast   slower     slow   faster     
+		   6.310712e-5, 0.9999369,    // far    fast   slower     slow   slower     
+		   8.011871e-5, 0.9999199,    // far    fast   slower     slow   consistent 
+		   3.627054e-6, 0.9999964,    // far    fast   consistent fast   faster     
+		   4.458695e-6, 0.9999955,    // far    fast   consistent fast   slower     
+		   4.180557e-6, 0.9999958,    // far    fast   consistent fast   consistent 
+		   5.044727e-6, 0.9999949,    // far    fast   consistent middle faster     
+		   4.289411e-6, 0.9999957,    // far    fast   consistent middle slower     
+		   4.619149e-6, 0.9999954,    // far    fast   consistent middle consistent 
+		   7.469066e-5, 0.9999253,    // far    fast   consistent slow   faster     
+		   8.133347e-5, 0.9999186,    // far    fast   consistent slow   slower     
+		   7.059934e-5, 0.9999294,    // far    fast   consistent slow   consistent 
+		   0.4852507,   0.5147493,    // far    middle faster     fast   faster     
+		   0.4930167,   0.5069832,    // far    middle faster     fast   slower     
+		   0.5731758,   0.4268242,    // far    middle faster     fast   consistent 
+		   0.4485236,   0.5514764,    // far    middle faster     middle faster     
+		   0.5302994,   0.4697007,    // far    middle faster     middle slower     
+		   0.5304608,   0.4695392,    // far    middle faster     middle consistent 
+		   0.478686,    0.521314,     // far    middle faster     slow   faster     
+		   0.4601368,   0.5398632,    // far    middle faster     slow   slower     
+		   0.4635012,   0.5364987,    // far    middle faster     slow   consistent 
+		   0.5542347,   0.4457653,    // far    middle slower     fast   faster     
+		   0.5433093,   0.4566907,    // far    middle slower     fast   slower     
+		   0.4827763,   0.5172238,    // far    middle slower     fast   consistent 
+		   0.5028898,   0.4971102,    // far    middle slower     middle faster     
+		   0.4721739,   0.5278261,    // far    middle slower     middle slower     
+		   0.4616474,   0.5383527,    // far    middle slower     middle consistent 
+		   0.5212886,   0.4787113,    // far    middle slower     slow   faster     
+		   0.5228913,   0.4771087,    // far    middle slower     slow   slower     
+		   0.526675,    0.473325,     // far    middle slower     slow   consistent 
+		   0.540938,    0.459062,     // far    middle consistent fast   faster     
+		   0.49736,     0.50264,      // far    middle consistent fast   slower     
+		   0.4431307,   0.5568693,    // far    middle consistent fast   consistent 
+		   0.5584754,   0.4415246,    // far    middle consistent middle faster     
+		   0.530412,    0.469588,     // far    middle consistent middle slower     
+		   0.4999961,   0.5000039,    // far    middle consistent middle consistent 
+		   0.4333349,   0.5666652,    // far    middle consistent slow   faster     
+		   0.481746,    0.5182539,    // far    middle consistent slow   slower     
+		   0.5241296,   0.4758704,    // far    middle consistent slow   consistent 
+		   0.5593189,   0.4406811,    // far    slow   faster     fast   faster     
+		   0.4351358,   0.5648642,    // far    slow   faster     fast   slower     
+		   0.4903427,   0.5096573,    // far    slow   faster     fast   consistent 
+		   0.9999869,   1.312526e-5,  // far    slow   faster     middle faster     
+		   0.9999835,   1.652101e-5,  // far    slow   faster     middle slower     
+		   0.9999887,   1.125994e-5,  // far    slow   faster     middle consistent 
+		   0.5081477,   0.4918523,    // far    slow   faster     slow   faster     
+		   0.460877,    0.539123,     // far    slow   faster     slow   slower     
+		   0.5574,      0.4426,       // far    slow   faster     slow   consistent 
+		   0.5336257,   0.4663743,    // far    slow   slower     fast   faster     
+		   0.5270217,   0.4729783,    // far    slow   slower     fast   slower     
+		   0.5253819,   0.4746181,    // far    slow   slower     fast   consistent 
+		   0.9999855,   1.447506e-5,  // far    slow   slower     middle faster     
+		   0.9999864,   1.367547e-5,  // far    slow   slower     middle slower     
+		   0.9999903,   9.69916e-6,   // far    slow   slower     middle consistent 
+		   0.5353712,   0.4646288,    // far    slow   slower     slow   faster     
+		   0.4778377,   0.5221623,    // far    slow   slower     slow   slower     
+		   0.4907428,   0.5092572,    // far    slow   slower     slow   consistent 
+		   0.5468778,   0.4531222,    // far    slow   consistent fast   faster     
+		   0.5453583,   0.4546417,    // far    slow   consistent fast   slower     
+		   0.5394166,   0.4605834,    // far    slow   consistent fast   consistent 
+		   0.999981,    1.897074e-5,  // far    slow   consistent middle faster     
+		   0.9999887,   1.132905e-5,  // far    slow   consistent middle slower     
+		   0.9999882,   1.179383e-5,  // far    slow   consistent middle consistent 
+		   0.5212823,   0.4787177,    // far    slow   consistent slow   faster     
+		   0.5636298,   0.4363702,    // far    slow   consistent slow   slower     
+		   0.4827346,   0.5172654,    // far    slow   consistent slow   consistent 
+		   4.187653e-6, 0.9999958,    // middle fast   faster     fast   faster     
+		   3.675075e-6, 0.9999963,    // middle fast   faster     fast   slower     
+		   3.65382e-6,  0.9999964,    // middle fast   faster     fast   consistent 
+		   3.797275e-6, 0.9999962,    // middle fast   faster     middle faster     
+		   3.635396e-6, 0.9999964,    // middle fast   faster     middle slower     
+		   4.588801e-6, 0.9999954,    // middle fast   faster     middle consistent 
+		   3.990965e-6, 0.999996,     // middle fast   faster     slow   faster     
+		   4.415245e-6, 0.9999956,    // middle fast   faster     slow   slower     
+		   4.348205e-6, 0.9999956,    // middle fast   faster     slow   consistent 
+		   3.524412e-6, 0.9999965,    // middle fast   slower     fast   faster     
+		   3.725938e-6, 0.9999962,    // middle fast   slower     fast   slower     
+		   3.099261e-6, 0.9999969,    // middle fast   slower     fast   consistent 
+		   3.688281e-6, 0.9999963,    // middle fast   slower     middle faster     
+		   3.726544e-6, 0.9999962,    // middle fast   slower     middle slower     
+		   4.59136e-6,  0.9999954,    // middle fast   slower     middle consistent 
+		   3.929757e-6, 0.9999961,    // middle fast   slower     slow   faster     
+		   3.807835e-6, 0.9999962,    // middle fast   slower     slow   slower     
+		   4.352462e-6, 0.9999956,    // middle fast   slower     slow   consistent 
+		   4.295413e-6, 0.9999957,    // middle fast   consistent fast   faster     
+		   4.750394e-6, 0.9999952,    // middle fast   consistent fast   slower     
+		   4.275224e-6, 0.9999957,    // middle fast   consistent fast   consistent 
+		   4.660645e-6, 0.9999954,    // middle fast   consistent middle faster     
+		   4.516964e-6, 0.9999955,    // middle fast   consistent middle slower     
+		   3.423311e-6, 0.9999966,    // middle fast   consistent middle consistent 
+		   3.78041e-6,  0.9999962,    // middle fast   consistent slow   faster     
+		   4.078173e-6, 0.9999959,    // middle fast   consistent slow   slower     
+		   5.149298e-6, 0.9999949,    // middle fast   consistent slow   consistent 
+		   0.5376342,   0.4623658,    // middle middle faster     fast   faster     
+		   0.4315421,   0.568458,     // middle middle faster     fast   slower     
+		   0.5152354,   0.4847647,    // middle middle faster     fast   consistent 
+		   0.4343639,   0.5656362,    // middle middle faster     middle faster     
+		   0.5423541,   0.4576459,    // middle middle faster     middle slower     
+		   0.4476424,   0.5523576,    // middle middle faster     middle consistent 
+		   0.4823885,   0.5176114,    // middle middle faster     slow   faster     
+		   0.5167922,   0.4832078,    // middle middle faster     slow   slower     
+		   0.5046217,   0.4953783,    // middle middle faster     slow   consistent 
+		   0.5024271,   0.4975729,    // middle middle slower     fast   faster     
+		   0.4529229,   0.5470771,    // middle middle slower     fast   slower     
+		   0.4932518,   0.5067482,    // middle middle slower     fast   consistent 
+		   0.4941972,   0.5058028,    // middle middle slower     middle faster     
+		   0.4949521,   0.5050479,    // middle middle slower     middle slower     
+		   0.4895954,   0.5104046,    // middle middle slower     middle consistent 
+		   0.4926285,   0.5073715,    // middle middle slower     slow   faster     
+		   0.5507696,   0.4492304,    // middle middle slower     slow   slower     
+		   0.5700607,   0.4299393,    // middle middle slower     slow   consistent 
+		   0.5652761,   0.4347239,    // middle middle consistent fast   faster     
+		   0.4551174,   0.5448826,    // middle middle consistent fast   slower     
+		   0.5235972,   0.4764028,    // middle middle consistent fast   consistent 
+		   0.5125171,   0.4874829,    // middle middle consistent middle faster     
+		   0.4923777,   0.5076222,    // middle middle consistent middle slower     
+		   0.5171576,   0.4828424,    // middle middle consistent middle consistent 
+		   0.4976105,   0.5023894,    // middle middle consistent slow   faster     
+		   0.4895261,   0.5104739,    // middle middle consistent slow   slower     
+		   0.4743288,   0.5256711,    // middle middle consistent slow   consistent 
+		   0.4980227,   0.5019773,    // middle slow   faster     fast   faster     
+		   0.5323541,   0.467646,     // middle slow   faster     fast   slower     
+		   0.436652,    0.5633479,    // middle slow   faster     fast   consistent 
+		   0.459943,    0.540057,     // middle slow   faster     middle faster     
+		   0.4914725,   0.5085276,    // middle slow   faster     middle slower     
+		   0.544401,    0.455599,     // middle slow   faster     middle consistent 
+		   0.5016359,   0.4983641,    // middle slow   faster     slow   faster     
+		   0.4850602,   0.5149398,    // middle slow   faster     slow   slower     
+		   0.4394956,   0.5605044,    // middle slow   faster     slow   consistent 
+		   0.454562,    0.545438,     // middle slow   slower     fast   faster     
+		   0.4741304,   0.5258695,    // middle slow   slower     fast   slower     
+		   0.4837247,   0.5162752,    // middle slow   slower     fast   consistent 
+		   0.4822829,   0.5177171,    // middle slow   slower     middle faster     
+		   0.5086179,   0.4913821,    // middle slow   slower     middle slower     
+		   0.5136694,   0.4863306,    // middle slow   slower     middle consistent 
+		   0.5689075,   0.4310925,    // middle slow   slower     slow   faster     
+		   0.5129684,   0.4870316,    // middle slow   slower     slow   slower     
+		   0.5265501,   0.4734499,    // middle slow   slower     slow   consistent 
+		   0.4820114,   0.5179886,    // middle slow   consistent fast   faster     
+		   0.4926311,   0.5073689,    // middle slow   consistent fast   slower     
+		   0.4326095,   0.5673905,    // middle slow   consistent fast   consistent 
+		   0.4972665,   0.5027335,    // middle slow   consistent middle faster     
+		   0.4736937,   0.5263063,    // middle slow   consistent middle slower     
+		   0.493696,    0.506304,     // middle slow   consistent middle consistent 
+		   0.4940272,   0.5059727,    // middle slow   consistent slow   faster     
+		   0.4436065,   0.5563935,    // middle slow   consistent slow   slower     
+		   0.5035111,   0.4964889,    // middle slow   consistent slow   consistent 
+		   9.272872e-6, 0.9999907,    // short  fast   faster     fast   faster     
+		   8.22192e-6,  0.9999918,    // short  fast   faster     fast   slower     
+		   8.097768e-6, 0.9999919,    // short  fast   faster     fast   consistent 
+		   0.434552,    0.565448,     // short  fast   faster     middle faster     
+		   0.4737929,   0.5262071,    // short  fast   faster     middle slower     
+		   0.5482122,   0.4517877,    // short  fast   faster     middle consistent 
+		   0.4248669,   0.5751331,    // short  fast   faster     slow   faster     
+		   0.5647357,   0.4352643,    // short  fast   faster     slow   slower     
+		   0.4410723,   0.5589277,    // short  fast   faster     slow   consistent 
+		   6.719907e-6, 0.9999933,    // short  fast   slower     fast   faster     
+		   6.915608e-6, 0.9999931,    // short  fast   slower     fast   slower     
+		   8.499895e-6, 0.9999915,    // short  fast   slower     fast   consistent 
+		   0.5089296,   0.4910704,    // short  fast   slower     middle faster     
+		   0.4905027,   0.5094973,    // short  fast   slower     middle slower     
+		   0.5000297,   0.4999703,    // short  fast   slower     middle consistent 
+		   0.4294358,   0.5705642,    // short  fast   slower     slow   faster     
+		   0.5077482,   0.4922518,    // short  fast   slower     slow   slower     
+		   0.4769875,   0.5230125,    // short  fast   slower     slow   consistent 
+		   8.959524e-6, 0.9999911,    // short  fast   consistent fast   faster     
+		   8.212579e-6, 0.9999918,    // short  fast   consistent fast   slower     
+		   6.578831e-6, 0.9999934,    // short  fast   consistent fast   consistent 
+		   0.4852137,   0.5147864,    // short  fast   consistent middle faster     
+		   0.5107225,   0.4892775,    // short  fast   consistent middle slower     
+		   0.5000482,   0.4999518,    // short  fast   consistent middle consistent 
+		   0.516041,    0.483959,     // short  fast   consistent slow   faster     
+		   0.4896325,   0.5103676,    // short  fast   consistent slow   slower     
+		   0.5111731,   0.4888269,    // short  fast   consistent slow   consistent 
+		   0.4584783,   0.5415217,    // short  middle faster     fast   faster     
+		   0.5181848,   0.4818152,    // short  middle faster     fast   slower     
+		   0.5021229,   0.4978772,    // short  middle faster     fast   consistent 
+		   0.4986083,   0.5013917,    // short  middle faster     middle faster     
+		   0.4876726,   0.5123274,    // short  middle faster     middle slower     
+		   0.5528689,   0.4471311,    // short  middle faster     middle consistent 
+		   0.432401,    0.567599,     // short  middle faster     slow   faster     
+		   0.4827975,   0.5172026,    // short  middle faster     slow   slower     
+		   0.4893408,   0.5106592,    // short  middle faster     slow   consistent 
+		   0.4929158,   0.5070842,    // short  middle slower     fast   faster     
+		   0.5031631,   0.4968369,    // short  middle slower     fast   slower     
+		   0.554976,    0.445024,     // short  middle slower     fast   consistent 
+		   0.4264391,   0.5735608,    // short  middle slower     middle faster     
+		   0.4928705,   0.5071295,    // short  middle slower     middle slower     
+		   0.4531203,   0.5468796,    // short  middle slower     middle consistent 
+		   0.5175819,   0.4824181,    // short  middle slower     slow   faster     
+		   0.5178453,   0.4821547,    // short  middle slower     slow   slower     
+		   0.4724716,   0.5275284,    // short  middle slower     slow   consistent 
+		   0.5145938,   0.4854062,    // short  middle consistent fast   faster     
+		   0.459726,    0.540274,     // short  middle consistent fast   slower     
+		   0.4506287,   0.5493713,    // short  middle consistent fast   consistent 
+		   0.5732381,   0.4267618,    // short  middle consistent middle faster     
+		   0.4823979,   0.5176021,    // short  middle consistent middle slower     
+		   0.5030906,   0.4969095,    // short  middle consistent middle consistent 
+		   0.5671074,   0.4328926,    // short  middle consistent slow   faster     
+		   0.5681505,   0.4318496,    // short  middle consistent slow   slower     
+		   0.4734488,   0.5265512,    // short  middle consistent slow   consistent 
+		   0.9999992,   8.08536e-7,   // short  slow   faster     fast   faster     
+		   0.9997502,   2.497885e-4,  // short  slow   faster     fast   slower     
+		   0.9997515,   2.484762e-4,  // short  slow   faster     fast   consistent 
+		   0.9999895,   1.04761e-5,   // short  slow   faster     middle faster     
+		   0.9999903,   9.721536e-6,  // short  slow   faster     middle slower     
+		   0.9999992,   7.975536e-7,  // short  slow   faster     middle consistent 
+		   0.9999993,   6.285478e-7,  // short  slow   faster     slow   faster     
+		   0.9999991,   8.750754e-7,  // short  slow   faster     slow   slower     
+		   0.9999992,   8.449036e-7,  // short  slow   faster     slow   consistent 
+		   0.9999993,   6.922842e-7,  // short  slow   slower     fast   faster     
+		   0.9999995,   5.561256e-7,  // short  slow   slower     fast   slower     
+		   0.9999995,   5.58519e-7,   // short  slow   slower     fast   consistent 
+		   0.9999993,   7.333911e-7,  // short  slow   slower     middle faster     
+		   0.9999994,   6.171665e-7,  // short  slow   slower     middle slower     
+		   0.9999993,   6.992895e-7,  // short  slow   slower     middle consistent 
+		   0.9999992,   7.575937e-7,  // short  slow   slower     slow   faster     
+		   0.9999993,   7.137126e-7,  // short  slow   slower     slow   slower     
+		   0.9999993,   6.83104e-7,   // short  slow   slower     slow   consistent 
+		   0.9999992,   8.377535e-7,  // short  slow   consistent fast   faster     
+		   0.9999993,   6.512475e-7,  // short  slow   consistent fast   slower     
+		   0.9999993,   7.304242e-7,  // short  slow   consistent fast   consistent 
+		   0.9999994,   6.016663e-7,  // short  slow   consistent middle faster     
+		   0.9999992,   7.667044e-7,  // short  slow   consistent middle slower     
+		   0.9999994,   6.230827e-7,  // short  slow   consistent middle consistent 
+		   0.9999991,   9.125235e-7,  // short  slow   consistent slow   faster     
+		   0.9999995,   5.267959e-7,  // short  slow   consistent slow   slower     
+		   0.9999994,   6.009519e-7); // short  slow   consistent slow   consistent ;
+	title = "crash_left";
+	whenchanged = 1364333448;
+	belief = (0.3556555, 0.6443445);
+	visual V1 {
+		center = (726, 492);
+		height = 5;
+		};
+	};
+
+node reaction {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (overtake, decelerate, none);
+	parents = (crash_left, crash_front, risktaking);
+	probs = 
+		// overtake     decelerate   none          // crash_left crash_front risktaking 
+		  (1.808669e-4, 0.8333438,   0.1664753,    // yes        yes         big        
+		   5.063076e-4, 0.9989763,   5.173649e-4,  // yes        yes         middle     
+		   2.72666e-5,  0.001021134, 0.9989516,    // yes        yes         small      
+		   6.212937e-5, 7.457745e-5, 0.9998633,    // yes        no          big        
+		   0.00103721,  0.9977557,   0.001207111,  // yes        no          middle     
+		   1.105821e-5, 1.155992e-5, 0.9999774,    // yes        no          small      
+		   4.192305e-4, 3.840051e-5, 0.9995424,    // no         yes         big        
+		   0.9998759,   5.931517e-5, 6.480311e-5,  // no         yes         middle     
+		   1.033643e-4, 1.139076e-5, 0.9998853,    // no         yes         small      
+		   0.9924219,   5.80862e-5,  0.007520026,  // no         no          big        
+		   0.9998896,   5.050517e-5, 5.991677e-5,  // no         no          middle     
+		   0.7348359,   1.365373e-4, 0.2650276);   // no         no          small      ;
+	title = "reaction";
+	whenchanged = 1364333448;
+	belief = (0.3888896, 0.1165661, 0.4945443);
+	visual V1 {
+		center = (726, 330);
+		height = 1;
+		};
+	};
+ElimOrder = (v_own_hist, v_front_hist, v_left_hist, reaction, risktaking, v_front, a_front, d_front, crash_front, v_own, a_own, v_left, a_left, d_left, crash_left);
+};

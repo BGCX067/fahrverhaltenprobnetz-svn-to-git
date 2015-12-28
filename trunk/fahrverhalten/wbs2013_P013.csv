@@ -1,0 +1,6 @@
+﻿Takt;Distanz (voraus);Geschwindigkeit (voraus);Distanz (linke Spur);Geschwindigkeit (linke Spur);Eigengeschwindigkeit;Reaktion
+1;0;16;-100;16;16;überholen
+2;100;60;100;60;60;verzögern
+3;100;60;100;60;60;keine
+4;100;60;100;60;60;keine
+5;100;60;100;60;60;keine
